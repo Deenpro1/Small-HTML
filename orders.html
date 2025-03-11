@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Readdy - AI Content Creation Platform</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#00a3e0',
+secondary: '#ffffff'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.product-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+gap: 2rem;
+}
+.category-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+gap: 1.5rem;
+}
+</style>
+</head>
+<body class="bg-gray-50">
+<header class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+<nav class="container mx-auto px-4 py-4">
+<div class="flex items-center justify-between">
+<a href="index.html"></a>
+<img src="D2E26FE1-92F3-4BB4-98C7-07BFEBCD8D47.WEBP" alt="logo" class="h-12">
+</a>
+<div class="flex-1 max-w-2xl mx-8">
+<div class="relative">
+<input type="text" placeholder="Search for products..." class="w-full px-4 py-2 border rounded-full focus:outline-none focus:border-primary">
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-search-line"></i>
+</div>
+</button>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<div class="relative">
+<button class="relative cursor-pointer" id="userButton">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-user-line text-xl"></i>
+</div>
+</button>
+<div id="userDropdown" class="hidden absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
+<div class="py-2">
+<a href="/signin" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+<div class="flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-login-circle-line"></i>
+</div>
+Sign In
+</div>
+</a>
+<a href="/signup.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+<div class="flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-user-add-line"></i>
+</div>
+Create Account
+</div>
+</a>
+<a href="/orders.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+<div class="flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-file-list-3-line"></i>
+</div>
+My Orders
+</div>
+</a>
+<a href="/profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+<div class="flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-user-settings-line"></i>
+</div>
+My Profile
+</div>
+</a>
+<div class="border-t my-1"></div>
+<a href="/signout.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+<div class="flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-logout-circle-line"></i>
+</div>
+Sign Out
+</div>
+</a>
+</div>
+</div>
+</div>
+<script>
+const userButton = document.getElementById('userButton');
+const userDropdown = document.getElementById('userDropdown');
+let isUserDropdownOpen = false;
+userButton.addEventListener('click', (e) => {
+e.stopPropagation();
+isUserDropdownOpen = !isUserDropdownOpen;
+userDropdown.classList.toggle('hidden');
+});
+document.addEventListener('click', (e) => {
+if (isUserDropdownOpen && !userDropdown.contains(e.target)) {
+isUserDropdownOpen = false;
+userDropdown.classList.add('hidden');
+}
+});
+userDropdown.addEventListener('click', (e) => {
+e.stopPropagation();
+});
+</script>
+</div>
+<div class="flex items-center space-x-8 mt-4">
+<a href="laptops" class="text-gray-600 hover:text-primary">Laptops</a>
+<a href="desktops" class="text-gray-600 hover:text-primary">Desktops</a>
+<a href="components" class="text-gray-600 hover:text-primary">Components</a>
+<a href="accessories" class="text-gray-600 hover:text-primary">Accessories</a>
+<a href="monitors" class="text-gray-600 hover:text-primary">Monitors</a>
+<a href="gaming" class="text-gray-600 hover:text-primary">Gaming</a>
+</div>
+</nav>
+</header>
+<main class="mt-32">
+<div class="absolute inset-0 bg-gradient-to-r from-white/90 to-transparent">
+<div class="container mx-auto px-4 h-full flex items-center">
+<div class="max-w-xl">
+</div>
+</div>

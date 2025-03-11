@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC Hardwareshop by Len</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#00a3e0',
+secondary: '#ffffff'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+.product-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+gap: 2rem;
+}
+.category-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+gap: 1.5rem;
+}
+</style>
+</head>
+<body class="bg-gray-50">
+<header class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+<nav class="container mx-auto px-4 py-4">
+<div class="flex items-center justify-between">
+<a href="#" class="flex items-center">
+<img src="https://static.readdy.ai/image/3ba9747c7940245fc6aa6579590ed075/992b7f74c0ac54ad4c7c64a26a0b84f4.webp" alt="logo" class="h-12">
+</a>
+<div class="flex-1 max-w-2xl mx-8">
+<div class="relative">
+<input type="text" placeholder="Search for products..." class="w-full px-4 py-2 border rounded-full focus:outline-none focus:border-primary">
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-search-line"></i>
+</div>
+</button>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<div class="relative">
+<button class="relative cursor-pointer" id="userButton">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-user-line text-xl"></i>
+</div>
+</button>
+<div id="userDropdown" class="hidden absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
+<div class="py-2">
+<a href="/signin.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+<div class="flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-login-circle-line"></i>
+</div>
+Sign In
+</div>
+</a>
+<a href="/signup.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+<div class="flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-user-add-line"></i>
+</div>
+Create Account
+</div>
+</a>
+<a href="/orders.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+<div class="flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-file-list-3-line"></i>
+</div>
+My Orders
+</div>
+</a>
+<a href="/profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+<div class="flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-user-settings-line"></i>
+</div>
+My Profile
+</div>
+</a>
+<div class="border-t my-1"></div>
+<a href="/signout.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+<div class="flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-logout-circle-line"></i>
+</div>
+Sign Out
+</div>
+</a>
+</div>
+</div>
+</div>
+<script>
+const userButton = document.getElementById('userButton');
+const userDropdown = document.getElementById('userDropdown');
+let isUserDropdownOpen = false;
+userButton.addEventListener('click', (e) => {
+e.stopPropagation();
+isUserDropdownOpen = !isUserDropdownOpen;
+userDropdown.classList.toggle('hidden');
+});
+document.addEventListener('click', (e) => {
+if (isUserDropdownOpen && !userDropdown.contains(e.target)) {
+isUserDropdownOpen = false;
+userDropdown.classList.add('hidden');
+}
+});
+userDropdown.addEventListener('click', (e) => {
+e.stopPropagation();
+});
+</script>
+<div class="relative">
+<button class="relative cursor-pointer" id="cartButton">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-shopping-cart-line text-xl"></i>
+</div>
+<span class="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+</button>
+<div id="cartDropdown" class="hidden absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg z-50">
+<div class="p-4">
+<div class="space-y-4 max-h-96 overflow-y-auto">
+<div class="flex items-center gap-4 pb-4 border-b">
+<img src="https://assets3.razerzone.com/cuqFyeFLmS23Nk5OJeKi3wd4p6U=/1500x1000/https%3A%2F%2Fmedias-p1.phoenix.razer.com%2Fsys-master-phoenix-images-container%2Fh6d%2Fhb3%2F9719191568414%2F240109-blade16-s10-mercury-1500x1000-1.jpg" alt="ProBook X15 Gaming" class="w-16 h-16 object-cover rounded">
+<div class="flex-1">
+<h4 class="font-semibold">Razor Blade 16</h4>
+<p class="text-gray-600">3.899,99€</p>
+<div class="flex items-center gap-2 mt-1">
+<button class="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200">-</button>
+<span class="text-sm">1</span>
+<button class="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200">+</button>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4 pb-4 border-b">
+<img src="https://dlcdnwebimgs.asus.com/gain/F0D898EA-1E88-4334-B379-3792D484FFA2/w717/h525" alt="ROG Strix XG259CMS" class="w-16 h-16 object-cover rounded">
+<div class="flex-1">
+<h4 class="font-semibold">ROG Strix XG259CMS</h4>
+<p class="text-gray-600">349,99€</p>
+<div class="flex items-center gap-2 mt-1">
+<button class="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200">-</button>
+<span class="text-sm">1</span>
+<button class="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200">+</button>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4 pb-4 border-b">
+<img src="https://m.media-amazon.com/images/I/71qwMJ8As4L._AC_SL1500_.jpg" alt="Gaming Bundle" class="w-16 h-16 object-cover rounded">
+<div class="flex-1">
+<h4 class="font-semibold">RedThunder K20 Mouse and Keyboard Set</h4>
+<p class="text-gray-600">55,99€</p>
+<div class="flex items-center gap-2 mt-1">
+<button class="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200">-</button>
+<span class="text-sm">1</span>
+<button class="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200">+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="border-t mt-4 pt-4">
+<div class="flex justify-between mb-4">
+<span class="font-semibold">Subtotal</span>
+<span class="font-semibold">Please select items to continue
+</div>
+<div class="flex gap-4">
+<a href="/cart.html" class="flex-1 px-4 py-2 bg-gray-100 text-gray-800 rounded-button text-center hover:bg-gray-200">View Cart</a>
+<a href="/checkout.html" class="flex-1 px-4 py-2 bg-primary text-white rounded-button text-center hover:bg-primary/90">Checkout</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+const cartButton = document.getElementById('cartButton');
+const cartDropdown = document.getElementById('cartDropdown');
+let isCartOpen = false;
+cartButton.addEventListener('click', (e) => {
+e.stopPropagation();
+isCartOpen = !isCartOpen;
+cartDropdown.classList.toggle('hidden');
+});
+document.addEventListener('click', (e) => {
+if (isCartOpen && !cartDropdown.contains(e.target)) {
+isCartOpen = false;
+cartDropdown.classList.add('hidden');
+}
+});
+cartDropdown.addEventListener('click', (e) => {
+e.stopPropagation();
+});
+</script>
+</div>
+</div>
+<div class="flex items-center space-x-8 mt-4">
+<a href="laptops.html" class="text-gray-600 hover:text-primary">Laptops</a>
+<a href="desktops.html" class="text-gray-600 hover:text-primary">Desktops</a>
+<a href="components.html" class="text-gray-600 hover:text-primary">Components</a>
+<a href="accessories.html" class="text-gray-600 hover:text-primary">Accessories</a>
+<a href="monitors.html" class="text-gray-600 hover:text-primary">Monitors</a>
+<a href="gaming.html" class="text-gray-600 hover:text-primary">Gaming</a>
+</div>
+</nav>
+</header>
+<main class="mt-32">
+<section class="relative h-[600px] bg-cover bg-center" style="background-image: url('https://public.readdy.ai/ai/img_res/64220e949b4503eddb08fdf6e0eb121a.jpg')">
+<div class="absolute inset-0 bg-gradient-to-r from-white/90 to-transparent">
+<div class="container mx-auto px-4 h-full flex items-center">
+<div class="max-w-xl">
+<h1 class="text-5xl font-bold mb-6">Experience Next-Gen Computing</h1>
+<p class="text-xl text-gray-600 mb-8">Discover our latest collection of premium laptops and desktops. Engineered for performance, designed for you.</p>
+<button class="bg-primary text-white px-8 py-3 rounded-button text-lg font-semibold hover:bg-primary/90">Shop Now</button>
+</div>
+</div>
+</div>
+</section>
+<section class="container mx-auto px-4 py-16">
+<h2 class="text-3xl font-bold mb-12">Featured Products</h2>
+<div class="product-grid">
+<div class="bg-white rounded-lg shadow-sm p-6 transition-transform hover:-translate-y-1">
+<a href="/product/probook-x15-gaming" class="block">
+<img src=https://assets3.razerzone.com/cuqFyeFLmS23Nk5OJeKi3wd4p6U=/1500x1000/https%3A%2F%2Fmedias-p1.phoenix.razer.com%2Fsys-master-phoenix-images-container%2Fh6d%2Fhb3%2F9719191568414%2F240109-blade16-s10-mercury-1500x1000-1.jpg" alt="Gaming Laptop" class="w-full h-48 object-cover rounded-lg mb-4">
+<h3 class="text-lg font-semibold mb-2">Razor Blade 16</h3>
+<p class="text-gray-600 text-sm mb-3">AI 9 365 Prozessor, 4070 ti</p>
+<div class="flex items-center justify-between mb-4">
+<span class="text-2xl font-bold">3.899,99€</span>
+<div class="flex items-center">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-half-fill text-yellow-400"></i>
+</div>
+</div>
+</a>
+<button class="w-full bg-primary text-white py-2 rounded-button hover:bg-primary/90">Add to Cart</button>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6 transition-transform hover:-translate-y-1">
+<a href="/product/powermax-desktop-pro" class="block">
+<img src="https://dlcdnwebimgs.asus.com/gain/F0D898EA-1E88-4334-B379-3792D484FFA2/w717/h525" alt="Desktop PC" class="w-full h-48 object-cover rounded-lg mb-4">
+<h3 class="text-lg font-semibold mb-2">ROG Strix XG259CMS</h3>
+<p class="text-gray-600 text-sm mb-3">FHD Display with usb C</p>
+<div class="flex items-center justify-between mb-4">
+<span class="text-2xl font-bold">349,99€</span>
+<div class="flex items-center">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+</div>
+</div>
+</a>
+<button class="w-full bg-primary text-white py-2 rounded-button hover:bg-primary/90">Add to Cart</button>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6 transition-transform hover:-translate-y-1">
+<a href="/product/ultrabook-air" class="block">
+<img src="https://m.media-amazon.com/images/I/71qwMJ8As4L._AC_SL1500_.jpg" alt="Set" class="w-full h-48 object-cover rounded-lg mb-4">
+<h3 class="text-lg font-semibold mb-2">RedThunder K20 Mouse and Keyboard Set</h3>
+<p class="text-gray-600 text-sm mb-3">Great, low price Set!</p>
+<div class="flex items-center justify-between mb-4">
+<span class="text-2xl font-bold">55,99€</span>
+<div class="flex items-center">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-line text-yellow-400"></i>
+</div>
+</div>
+</a>
+<button class="w-full bg-primary text-white py-2 rounded-button hover:bg-primary/90">Add to Cart</button>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-6 transition-transform hover:-translate-y-1">
+<a href="/product/curvemax-34" class="block">
+<img src="https://public.readdy.ai/ai/img_res/c1d27e56bf8ecf2d36efd499434b3141.jpg" alt="Gaming Monitor" class="w-full h-48 object-cover rounded-lg mb-4">
+<h3 class="text-lg font-semibold mb-2">CurveMax 34"</h3>
+<p class="text-gray-600 text-sm mb-3">165Hz, 1ms, QHD Curved</p>
+<div class="flex items-center justify-between mb-4">
+<span class="text-2xl font-bold">$699</span>
+<div class="flex items-center">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-half-fill text-yellow-400"></i>
+</div>
+</div>
+</a>
+<button class="w-full bg-primary text-white py-2 rounded-button hover:bg-primary/90">Add to Cart</button>
+</div>
+</div>
+</section>
+<section class="bg-white py-16">
+<div class="container mx-auto px-4">
+<h2 class="text-3xl font-bold mb-12">Shop by Category</h2>
+<div class="category-grid">
+<div class="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer transition-transform hover:-translate-y-1">
+<div class="h-40 relative">
+<img src="https://public.readdy.ai/ai/img_res/b778eb7a3b916c076348c51a9180984d.jpg" alt="Laptops" class="w-full h-full object-cover">
+<div class="absolute inset-0 bg-black/30"></div>
+<div class="absolute bottom-4 left-4 text-white">
+<h3 class="text-xl font-semibold">Gaming Laptops</h3>
+<p class="text-sm opacity-90">Starting from $899</p>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer transition-transform hover:-translate-y-1">
+<div class="h-40 relative">
+<img src="https://public.readdy.ai/ai/img_res/1fe24591391466743bfe40d5135ed31d.jpg" alt="Desktops" class="w-full h-full object-cover">
+<div class="absolute inset-0 bg-black/30"></div>
+<div class="absolute bottom-4 left-4 text-white">
+<h3 class="text-xl font-semibold">Gaming Desktops</h3>
+<p class="text-sm opacity-90">Starting from $1,299</p>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer transition-transform hover:-translate-y-1">
+<div class="h-40 relative">
+<img src="https://public.readdy.ai/ai/img_res/f34e450d4b02b3c4a8b000a6081508b9.jpg" alt="Components" class="w-full h-full object-cover">
+<div class="absolute inset-0 bg-black/30"></div>
+<div class="absolute bottom-4 left-4 text-white">
+<h3 class="text-xl font-semibold">Components</h3>
+<p class="text-sm opacity-90">Wide Selection</p>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer transition-transform hover:-translate-y-1">
+<div class="h-40 relative">
+<img src="https://public.readdy.ai/ai/img_res/3db8d956308aa1a544a01f15a4c5a616.jpg" alt="Accessories" class="w-full h-full object-cover">
+<div class="absolute inset-0 bg-black/30"></div>
+<div class="absolute bottom-4 left-4 text-white">
+<h3 class="text-xl font-semibold">Accessories</h3>
+<p class="text-sm opacity-90">Premium Quality</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container mx-auto px-4 py-16">
+<h2 class="text-3xl font-bold mb-12">Customer Reviews</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center mb-4">
+<div class="w-12 h-12 rounded-full bg-gray-200 mr-4"></div>
+<div>
+<h4 class="font-semibold">Michael Anderson</h4>
+<div class="flex items-center">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+</div>
+</div>
+</div>
+<p class="text-gray-600">"Absolutely love my new gaming laptop! The performance is incredible and the customer service was top-notch. Highly recommend!"</p>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center mb-4">
+<div class="w-12 h-12 rounded-full bg-gray-200 mr-4"></div>
+<div>
+<h4 class="font-semibold">Sarah Thompson</h4>
+<div class="flex items-center">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-half-fill text-yellow-400"></i>
+</div>
+</div>
+</div>
+<p class="text-gray-600">"Great selection of products and competitive prices. The shipping was fast and everything arrived well-packaged."</p>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<div class="flex items-center mb-4">
+<div class="w-12 h-12 rounded-full bg-gray-200 mr-4"></div>
+<div>
+<h4 class="font-semibold">David Wilson</h4>
+<div class="flex items-center">
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-fill text-yellow-400"></i>
+<i class="ri-star-line text-yellow-400"></i>
+</div>
+</div>
+</div>
+<p class="text-gray-600">"The technical support team was very helpful in helping me choose the right components for my custom build."</p>
+</div>
+</div>
+</section>
+<section class="bg-primary text-white py-16">
+<div class="container mx-auto px-4">
+<div class="flex flex-col md:flex-row items-center justify-between">
+<div class="mb-8 md:mb-0">
+<h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
+<p class="text-lg opacity-90">Subscribe to our newsletter for exclusive deals and tech news!</p>
+</div>
+<div class="flex w-full md:w-auto">
+<input type="email" placeholder="Enter your email" class="px-4 py-3 rounded-l-button text-gray-800 w-full md:w-80 focus:outline-none focus:ring-2 focus:ring-primary/50">
+<button onclick="handleSubscribe()" class="bg-white text-primary px-6 py-3 rounded-r-button font-semibold hover:bg-gray-100">Subscribe</button>
+<div id="subscribeModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+<div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+<h3 class="text-2xl font-bold text-gray-900 mb-4">Thanks for subscribing!</h3>
+<p class="text-gray-600 mb-6">You'll receive our latest updates and exclusive offers in your inbox.</p>
+<button onclick="closeSubscribeModal()" class="w-full bg-primary text-white py-2 rounded-button hover:bg-primary/90">Close</button>
+</div>
+</div>
+<script>
+function handleSubscribe() {
+const emailInput = document.querySelector('input[type="email"]');
+if (emailInput.value.trim() === '') {
+emailInput.classList.add('ring-2', 'ring-red-500');
+return;
+}
+document.getElementById('subscribeModal').classList.remove('hidden');
+emailInput.value = '';
+emailInput.classList.remove('ring-2', 'ring-red-500');
+}
+function closeSubscribeModal() {
+document.getElementById('subscribeModal').classList.add('hidden');
+}
+</script>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-gray-900 text-white pt-16 pb-8">
+<div class="container mx-auto px-4">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+<div>
+<h3 class="text-xl font-semibold mb-4">About Us</h3>
+<p class="text-gray-400">Your trusted source for premium computers and tech accessories since 2024.</p>
+</div>
+<div>
+<h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+<ul class="space-y-2">
+<li><a href="/shop" class="text-gray-400 hover:text-white">Shop</a></li>
+<li><a href="/about" class="text-gray-400 hover:text-white">About</a></li>
+<li><a href="/contact" class="text-gray-400 hover:text-white">Contact</a></li>
+<li><a href="/support" class="text-gray-400 hover:text-white">Support</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-xl font-semibold mb-4">Contact</h3>
+<ul class="space-y-2">
+<li class="text-gray-400">Zeppelinallee 42</li>
+<li class="text-gray-400">Frankfurt am Main, 60487</li>
+<li class="text-gray-400">not available</li>
+</ul>
+</div>
+<div>
+<h3 class="text-xl font-semibold mb-4">Follow Us on:</h3>
+<div class="flex space-x-4">
+<a href="https://facebook.com/404" target="_blank" class="text-gray-400 hover:text-white">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-facebook-fill"></i>
+</div>
+</a>
+<a href="https://twitter.com/404" target="_blank" class="text-gray-400 hover:text-white">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-twitter-fill"></i>
+</div>
+</a>
+<a href="https://instagram.com/404" target="_blank" class="text-gray-400 hover:text-white">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-instagram-fill"></i>
+</div>
+</a>
+<a href="https://youtube.com/404" target="_blank" class="text-gray-400 hover:text-white">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-youtube-fill"></i>
+</div>
+</a>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-800 pt-8">
+<p class="text-center text-gray-400">&copy; 2025 i dont have a name yet. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<button id="backToTop" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 transition-opacity duration-300 cursor-pointer">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-arrow-up-line"></i>
+</div>
+</button>
+<script>
+const backToTopButton = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+if (window.pageYOffset > 300) {
+backToTopButton.style.opacity = '1';
+} else {
+backToTopButton.style.opacity = '0';
+}
+});
+backToTopButton.addEventListener('click', () => {
+window.scrollTo({
+top: 0,
+behavior: 'smooth'
+});
+});
+</script>
+</body>
+</html>
